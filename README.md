@@ -8,6 +8,8 @@ Clique Bait is an online platform where marketing campaigns are used to drive us
 
 Evaluate the effectiveness of marketing campaigns by analyzing impression, click, and purchase events to quantify purchase uplift and identify high-performing campaigns for better budget allocation and creative optimization.
 
+---
+
 ## About Dataset
 
 There is a total of 5 datasets:
