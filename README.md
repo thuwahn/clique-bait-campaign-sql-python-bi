@@ -9,3 +9,7 @@ Evaluate the effectiveness of marketing campaigns by analyzing impression, click
 ## About Dataset
 There is a total of 5 datasets:
 - **`users`**(user_id, cookie_id, start_date): Customers who visit the Clique Bait website are tagged via their  **`cookie_id`**.
+- **`events `**(visit_id, cookie_id, page_id, event_type, sequence_number, event_time): Customer visits are logged in this events table at a **`cookie_id`** level and the **`event_type`** and **`page_id`** values can be used to join onto relevant satellite tables to obtain further information about each event.
+- **`event_identifier `**(event_type, event_name): The **`event_identifier `** table shows the types of events which are captured by Clique Bait’s digital data systems.
+- **`campaign_identifier`**(campaign_id, products, campaign_name, start_date, end_date): This table shows information for the 3 campaigns that Clique Bait has ran on their website so far in 2020.
+- **`page_hierarchy`**(page_id, page_name, product_category, product_id): This table lists all of the pages on the Clique Bait website which are tagged and have data passing through from user interaction events.
