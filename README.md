@@ -1,12 +1,15 @@
 # Clique Bait Campaign
 
 ## Introduction
+
 Clique Bait is an online platform where marketing campaigns are used to drive user engagement and purchases. This project analyzes user interaction data to understand how campaign exposure affects purchases and assess campaign effectiveness.
 
 ## Objective
+
 Evaluate the effectiveness of marketing campaigns by analyzing impression, click, and purchase events to quantify purchase uplift and identify high-performing campaigns for better budget allocation and creative optimization.
 
 ## About Dataset
+
 There is a total of 5 datasets:
 - **`users`**(user_id, cookie_id, start_date): Customers who visit the Clique Bait website are tagged via their  **`cookie_id`**.
 - **`events `**(visit_id, cookie_id, page_id, event_type, sequence_number, event_time): Customer visits are logged in this events table at a **`cookie_id`** level and the **`event_type`** and **`page_id`** values can be used to join onto relevant satellite tables to obtain further information about each event.
@@ -18,4 +21,11 @@ There is a total of 5 datasets:
 
 <img width="715" height="347" alt="127271130-dca9aedd-4ca9-4ed8-b6ec-1e1920dca4a8" src="https://github.com/user-attachments/assets/36389568-2600-48c3-8b78-bd5af2ab682d" />
 
-##
+##  Project Structure
+
+| **Folder**              | **Description**                                              |
+|-------------------------|--------------------------------------------------------------|
+| data                |  |
+| sql                  | Clean data, segment users, and compute funnel and uplift metrics using CTEs and conditional aggregation. |
+| python                  | Exploratory data analysis and validation, including distribution analysis and time-to-purchase patterns. |
+| powerbi                  | Design a one-page management infographic highlighting key insights. |
