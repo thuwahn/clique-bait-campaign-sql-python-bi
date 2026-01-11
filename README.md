@@ -5,3 +5,7 @@ Clique Bait is an online platform where marketing campaigns are used to drive us
 
 ## Objective
 Evaluate the effectiveness of marketing campaigns by analyzing impression, click, and purchase events to quantify purchase uplift and identify high-performing campaigns for better budget allocation and creative optimization.
+
+## About Dataset
+There is a total of 5 datasets:
+- **`users`**(user_id, cookie_id, start_date): Customers who visit the Clique Bait website are tagged via their  **`cookie_id`**.
