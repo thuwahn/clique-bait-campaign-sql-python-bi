@@ -285,6 +285,16 @@ SELECT 	c.*,
 FROM campaigns_analysis c
 LEFT JOIN campaign_identifier ci 
 	ON c.visit_start_time BETWEEN ci.start_date AND ci.end_date
-ORDER BY user_id, visit_start_time;
+ORDER BY user_id, visit_start_time
+LIMIT 5;
 ```
+
+| **user_id** | **visit_id** | **visit_start_time**           | **page_views** | **cart_adds** | **purchase** | **impression** | **click** | **cart_products**                                            | **campaign_name**                      |
+|------------:|--------------|--------------------------------|---------------:|--------------:|-------------:|---------------:|----------:|--------------------------------------------------------------|----------------------------------------|
+| 1           | 0fc437       | 2020-02-04 17:49:49.602976     | 10             | 6             | 1            | 1              | 1         | Tuna, Russian Caviar, Black Truffle, Abalone, Crab, Oyster   | Half Off - Treat Your Shellf(ish)      |
+| 1           | ccf365       | 2020-02-04 19:16:09.182546     | 7              | 3             | 1            | 0              | 0         | Lobster, Crab, Oyster                                       | Half Off - Treat Your Shellf(ish)      |
+| 1           | 0826dc       | 2020-02-26 05:58:37.918618     | 1              | 0             | 0            | 0              | 0         |                                                              | Half Off - Treat Your Shellf(ish)      |
+| 1           | 02a5d5       | 2020-02-26 16:57:26.260871     | 4              | 0             | 0            | 0              | 0         |                                                              | Half Off - Treat Your Shellf(ish)      |
+| 1           | f7c798       | 2020-03-15 02:23:26.312543     | 9              | 3             | 1            | 0              | 0         | Russian Caviar, Crab, Oyster                                 | Half Off - Treat Your Shellf(ish)      |
+
 
