@@ -212,8 +212,28 @@ LIMIT 1;
 
 ### 3. Which product had the highest view to purchase percentage?
 
+```sql
+SELECT ROUND(100*purchases/views::NUMERIC, 2) AS view_to_purchase_percentage
+FROM product_details
+ORDER BY view_to_purchase_percentage DESC
+LIMIT 1;
+```
+
+| **view_to_purchase_percentage**|
+|--------------------------------|
+| 48.74	              	  	     | 
+
+### 4. What is the average conversion rate from view to cart add?
 
 
+### 5. What is the average conversion rate from cart add to purchase?
+
+
+
+
+| **avg_rate_cart_to_purchase**	 |
+|--------------------------------|
+| 75.93	              	  	     | 
 
 
 
