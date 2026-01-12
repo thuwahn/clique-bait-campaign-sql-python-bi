@@ -245,5 +245,54 @@ FROM product_details;
 |--------------------------------|
 | 75.93	              	  	     | 
 
+---
 
+# Campaigns Analysis
+
+Generate a table that has 1 single row for every unique visit_id record and has the following columns:
+- user_id
+- visit_id
+- visit_start_time: the earliest event_time for each visit
+- page_views: count of page views for each visit
+- cart_adds: count of product cart add events for each visit
+- purchase: 1/0 flag if a purchase event exists for each visit
+- campaign_name: map the visit to a campaign if the visit_start_time falls between the start_date and end_date
+- impression: count of ad impressions for each visit
+- click: count of ad clicks for each visit
+(Optional column) cart_products: a comma separated text value with products added to the cart sorted by the order they were added to the cart (hint: use the sequence_number)
+
+```sql
+WITH campaigns_analysis AS (
+	SELECT	u.user_id,
+			j.visit_id,
+			MIN(j.event_time) AS visit_start_time,
+			COUNT(CASE WHEN j.event_name='Page View' THEN j.visit_id END) AS page_views,
+			CASE WHEN EXISTS (SELECT 1 
+						 	  FROM joined_tables jt 
+						 	  WHERE jt.visit_id = j.visit_id 
+							    AND event_name='Purchase'
+				) THEN 1 ELSE 0 END AS purchase,
+			COUNT (CASE WHEN EXISTS (SELECT 1 
+						 			 FROM joined_tables jt 
+						 			 WHERE jt.visit_id = j.visit_id 
+									   AND event_name='Ad Impression'
+				) THEN 1 ELSE 0 END) AS impression,
+			COUNT (CASE WHEN EXISTS (SELECT 1 
+						 			 FROM joined_tables jt 
+						 			 WHERE jt.visit_id = j.visit_id 
+									   AND event_name='Ad Click'
+				) THEN 1 ELSE 0 END) AS click,
+			STRING_AGG(CASE WHEN j.event_name = 'Add to Cart' THEN j.page_name END, 
+			 	', ' ORDER BY j.sequence_number)  AS cart_products
+	FROM joined_tables j
+	JOIN users u ON j.cookie_id = u.cookie_id
+	GROUP BY u.user_id,j.visit_id
+)
+SELECT 	c.*, 
+		ci.campaign_name
+FROM campaigns_analysis c
+LEFT JOIN campaign_identifier ci 
+	ON c.visit_start_time BETWEEN ci.start_date AND ci.end_date
+ORDER BY user_id, visit_start_time;
+```
 
