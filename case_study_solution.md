@@ -13,7 +13,7 @@ WHERE event_name='Purchase';
 
 | **purchase_rate**       |
 |-------------------------|
-| 49.86l              	  | 
+| 49.86              	  | 
 
 ### 2. What is the percentage of visits which view the checkout page but do not have a purchase event?
 
@@ -31,3 +31,17 @@ FROM events e
 JOIN page_hierarchy p ON e.page_id = p.page_id
 JOIN event_identifier ei ON e.event_type = ei.event_type;
 ```
+
+Using the base view above to calculate the required metrics and answer the question.
+
+```sql
+WITH checkout_purchase_cte AS (
+	SELECT 	COUNT(CASE WHEN page_name='Checkout' THEN visit_id END) AS checkouts,
+			COUNT(CASE WHEN event_name='Purchase' THEN visit_id END) AS perchases
+	FROM joined_tables
+)
+SELECT ROUND(100*(checkouts-perchases)/checkouts::NUMERIC,2) AS checkout_abandonment_rate
+FROM checkout_purchase_cte;
+```
+
+
