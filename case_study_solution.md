@@ -48,4 +48,20 @@ FROM checkout_purchase_cte;
 |------------------------------|
 | 15.50             	  	   | 
 
+### 3. What are the top 3 pages by number of views?
+```sql
+SELECT 	page_name, 
+		COUNT(*) AS views
+FROM joined_tables
+WHERE event_name='Page View'
+GROUP BY page_name
+ORDER BY COUNT(*) DESC
+LIMIT 3;
+```
+| **page_name**		|**views**		|
+|-------------------|---------------|
+| All Products      | 3174			|
+| Checkout	        | 2103			|
+| Home Page	        | 1782			|
+
 
