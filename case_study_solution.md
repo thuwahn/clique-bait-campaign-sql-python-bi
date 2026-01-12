@@ -77,7 +77,7 @@ GROUP BY product_category
 ORDER BY views DESC;
 ```
 
-| **product_category**		|**views**		|**views**		|
+| **product_category**		|**views**		|**cart_adds**	|
 |---------------------------|---------------|---------------|
 | Shellfish      			| 6204			|3792			|
 | Fish	        			| 4633			|2789			|
@@ -105,8 +105,51 @@ LIMIT 3;
 | Oyster	        | 726			|
 | Crab		        | 719			|
 
+---
 
 # B. Product Funnel Analysis
+
+## Using a single SQL query - create a new output table which has the following details:
+### How many times was each product viewed?
+### How many times was each product added to cart?
+### How many times was each product added to a cart but not purchased (abandoned)?
+### How many times was each product purchased?
+
+```sql
+CREATE TABLE product_details AS
+SELECT 	page_name AS product_name,
+		COUNT(CASE WHEN event_name='Page View' THEN visit_id END) AS views,
+		COUNT(CASE WHEN event_name='Add to Cart' THEN visit_id END) AS cart_adds,
+		COUNT(CASE WHEN event_name='Add to Cart' AND NOT EXISTS (SELECT 1 
+																 FROM joined_tables jt 
+																 WHERE jt.visit_id = j.visit_id 
+									  							   AND event_name='Purchase') 
+			THEN 1 END) AS not_purchases,
+		COUNT(CASE WHEN event_name='Add to Cart' AND EXISTS (SELECT 1 
+														  	 FROM joined_tables jt 
+														  	 WHERE jt.visit_id = j.visit_id 
+															   AND event_name='Purchase') 
+			THEN visit_id END) AS purchases
+FROM joined_tables j
+WHERE product_id IS NOT NULL
+GROUP BY page_name;
+
+SELECT * 
+FROM product_details
+ORDER BY product_name;
+```
+
+| **product_name**		|**views**|**cart_adds**|**not_purchases**|**purchases**|
+|-----------------------|---------|-------------|-----------------|-------------|
+|Abalone				|1525	  |932			|233			  |699			|
+|Black Truffle			|1469	  |924			|217			  |707			|
+|Crab					|1564	  |949	  		|230			  |719			|
+|Kingfish				|1559	  |920			|213			  |707			|
+|Lobster				|1547	  |968			|214			  |754			|
+|Oyster					|1568	  |943			|217			  |726			|
+|Russian Caviar			|1563	  |946			|249			  |697			|
+|Salmon					|1559	  |938			|227			  |711			|
+|Tuna					|1515	  |931			|234			  |697			|
 
 
 
