@@ -225,11 +225,21 @@ LIMIT 1;
 
 ### 4. What is the average conversion rate from view to cart add?
 
+```sql
+SELECT ROUND(AVG(100*cart_adds/views::NUMERIC),2) AS avg_rate_view_to_cart
+FROM product_details;
+```
+
+| **avg_rate_view_to_cart**		 |
+|--------------------------------|
+| 60.95	              	  	     | 
 
 ### 5. What is the average conversion rate from cart add to purchase?
 
-
-
+```sql
+SELECT ROUND(AVG(100*purchases/cart_adds::NUMERIC),2) AS avg_rate_cart_to_purchase
+FROM product_details;
+```
 
 | **avg_rate_cart_to_purchase**	 |
 |--------------------------------|
