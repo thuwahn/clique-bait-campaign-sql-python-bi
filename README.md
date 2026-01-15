@@ -46,21 +46,35 @@ Users were segmented into three mutually exclusive exposure groups to support up
 ### Metrics:
 
 ```
-- CTR = Click Users / Impression Users
+Click-through Rate (CTR) = Click Users / Impression Users
 
-- Purchase CR = Purchase Users / Click Users
+Purchase Conversion Rate = Purchase Users / Click Users
 
-- Overall Funnel CR = Purchase Users / Impression Users
+Overall Funnel Conversion Rate = Purchase Users / Impression Users
 ```
 
 > **Note**  
-> Funnel conversion metrics are calculated only for users who received at least one campaign impressio
+> Funnel conversion metrics are calculated only for users who received at least one campaign impression.
+
+
+## Uplift Analysis
+
+Uplift analysis compares purchase behavior across user exposure groups to quantify the incremental impact of campaign exposure.
+
+### Metrics:
+
+```
+Purchase rate = Purchase Users​ / Total Users (by user group)
+
+Uplift=  PurchaseRate_treated​ − PurchaseRate_control​ 
+
+Campaign-level uplift comparison
+```
 
 ## KPI Framework
 
-The following KPIs were defined to evaluate campaign performance and user conversion behavior:
-- Impression rate
-- Click-through rate (CTR)
+The following KPIs were defined to evaluate campaign performance:
+- Funnel conversion metrics
 - Purchase conversion rate
 - Purchase uplift by user group
 - Campaign-level performance comparison
