@@ -45,16 +45,12 @@ Users were segmented into three mutually exclusive exposure groups to support up
 
 ### Metrics:
 
-- Click-through rate (CTR) = 
-
-- Purchase conversion rate
-
-- Overall funnel conversion rate
-
 ```
-CTR = Click Users / Impression Users
-Purchase CR = Purchase Users / Click Users
-Overall Funnel CR = Purchase Users / Impression Users
+- CTR = Click Users / Impression Users
+
+- Purchase CR = Purchase Users / Click Users
+
+- Overall Funnel CR = Purchase Users / Impression Users
 ```
 
 > **Note**  
