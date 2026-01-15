@@ -1,12 +1,15 @@
 # Clique Bait Campaign
 
+
 ## Introduction
 
-Clique Bait is an online platform where marketing campaigns are used to drive user engagement and purchases. This project analyzes user interaction data to understand how campaign exposure affects purchases and assess campaign effectiveness.
+Clique Bait is an online platform where marketing campaigns are used to drive user engagement and purchases. This project analyzes user interaction data to evaluate campaign effectiveness using both funnel-based conversion metrics and uplift analysis.
+
 
 ## Objective
 
-Evaluate the effectiveness of marketing campaigns by analyzing impression, click, and purchase events to quantify purchase uplift and identify high-performing campaigns for better budget allocation and creative optimization.
+The goal is to evaluate the effectiveness of marketing campaigns by analyzing user progression through the impression → click → purchase funnel, quantifying the incremental purchase uplift attributable to campaign exposure, and identifying high-performing campaigns to support budget allocation and creative optimization.
+
 
 ## About Dataset
 
@@ -17,16 +20,39 @@ There is a total of 5 datasets:
 - **`campaign_identifier`**(campaign_id, products, campaign_name, start_date, end_date): This table shows information for the 3 campaigns that Clique Bait has ran on their website so far in 2020.
 - **`page_hierarchy`**(page_id, page_name, product_category, product_id): This table lists all of the pages on the Clique Bait website which are tagged and have data passing through from user interaction events.
 
+
 **ER Diagram:**
 
 <img width="715" height="347" alt="127271130-dca9aedd-4ca9-4ed8-b6ec-1e1920dca4a8" src="https://github.com/user-attachments/assets/36389568-2600-48c3-8b78-bd5af2ab682d" />
 
+
 ## User Segmentation
 
-Users were segmented into three mutually exclusive groups to enable uplift and funnel analysis:
+Users were segmented into three mutually exclusive exposure groups to support uplift and behavioral analysis:
+
 - **Non-exposed users**: users who did not receive any campaign impression
 - **Impression-only users**: users who received at least one impression but did not click
 - **Clickers**: users who clicked on at least one campaign impression
+
+> **Note:** User segmentation is used for uplift analysis and behavioral comparison, not for funnel conversion metrics.
+
+
+## Funnel Metrics
+
+### Funnel steps:
+
+- Impression → Click → Purchase
+
+### Metrics:
+
+- Click-through rate (CTR) = Purchase Conversion Rate = Purchase Users / Click Users
+
+- Purchase conversion rate
+
+- Overall funnel conversion rate
+
+> **Note**  
+> Funnel conversion metrics are calculated only for users who received at least one campaign impressio
 
 ## KPI Framework
 
