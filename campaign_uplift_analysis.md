@@ -35,8 +35,7 @@ user_segmentation  AS (
 	        END AS user_segmentation 
 			
 	FROM user_events u
-	JOIN campaign_identifier c ON u.event_time
-		BETWEEN c.start_date AND c.end_date
+	JOIN campaign_identifier c ON u.event_time BETWEEN c.start_date AND c.end_date
 	GROUP BY u.user_id, c.campaign_id, c.campaign_name
 )
 ```
