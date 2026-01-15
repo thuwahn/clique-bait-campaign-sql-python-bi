@@ -13,7 +13,7 @@ WITH user_events AS (
 )
 ```
 
-#### Users were segmented into mutually exclusive exposure groups ('Non-exposed', 'Impression-only', 'Clickers')
+#### Users were segmented into mutually exclusive exposure groups ('Non-exposed', 'Impression-only', 'Clickers'):
 ```sql
 user_segmentation  AS (
 	SELECT	u.user_id,
@@ -39,3 +39,12 @@ user_segmentation  AS (
 	GROUP BY u.user_id, c.campaign_id, c.campaign_name
 )
 ```
+| user_id | campaign_id | campaign_name                          | has_impression | has_click | has_purchase | user_segmentation |
+|--------:|------------:|----------------------------------------|---------------:|----------:|-------------:|-------------------|
+| 445     | 3           | Half Off - Treat Your Shelf(...)       | 1              | 0         | 1            | Impression-only   |
+| 448     | 2           | 25% Off - Living The Lux Life          | 1              | 0         | 1            | Impression-only   |
+| 388     | 2           | 25% Off - Living The Lux Life          | 1              | 1         | 1            | Clicker           |
+| 443     | 3           | Half Off - Treat Your Shelf(...)       | 1              | 1         | 1            | Clicker           |
+| 6       | 2           | 25% Off - Living The Lux Life          | 0              | 0         | 1            | Non-exposed       |
+| 384     | 1           | BOGOF - Fishing For Compliments        | 0              | 0         | 1            | Non-exposed       |
+
