@@ -59,25 +59,25 @@ FROM user_segmentation;
 ## 1. Funnel metrics by user group
 
 ```sql
-campaign_funnel_metrics AS (
-	SELECT 	campaign_id,
-        	campaign_name,
-
-			COUNT(DISTINCT user_id) AS impression_users,
-			COUNT(DISTINCT CASE WHEN has_click = 1 THEN user_id END) AS click_users,
-			COUNT(DISTINCT CASE WHEN has_click = 1 AND has_purchase = 1 THEN user_id END) AS purchase_users,
-
-			COUNT(DISTINCT CASE WHEN has_click = 1 THEN user_id END)::FLOAT 
-				/ NULLIF(COUNT(DISTINCT user_id), 0) AS ctr,
-			COUNT(DISTINCT CASE WHEN has_click = 1 AND has_purchase = 1 THEN user_id END)::FLOAT
-				/ NULLIF(COUNT(DISTINCT CASE WHEN has_click = 1 THEN user_id END),0) AS purchase_cr,
-			COUNT(DISTINCT CASE WHEN has_click = 1 AND has_purchase = 1 THEN user_id END)::FLOAT
-				/ NULLIF(COUNT(DISTINCT user_id), 0) AS overall_funnel_cr		
+CREATE VIEW campaign_funnel_metrics AS
+SELECT 	campaign_id,
+        campaign_name,
 			
-    FROM user_segmentation
-    WHERE has_impression = 1
-	GROUP BY campaign_id, campaign_name
-)
+		COUNT(DISTINCT user_id) AS total_users,
+		COUNT(DISTINCT user_id) AS impression_users,
+		COUNT(DISTINCT CASE WHEN has_click = 1 THEN user_id END) AS click_users,
+		COUNT(DISTINCT CASE WHEN has_click = 1 AND has_purchase = 1 THEN user_id END) AS purchase_users,
+
+		ROUND(COUNT(DISTINCT CASE WHEN has_click = 1 THEN user_id END) 
+			/ NULLIF(COUNT(DISTINCT user_id), 0)::NUMERIC, 4) AS ctr,
+		ROUND(COUNT(DISTINCT CASE WHEN has_click = 1 AND has_purchase = 1 THEN user_id END)
+			/ NULLIF(COUNT(DISTINCT CASE WHEN has_click = 1 THEN user_id END),0)::NUMERIC, 4) AS purchase_cr,
+		ROUND(COUNT(DISTINCT CASE WHEN has_click = 1 AND has_purchase = 1 THEN user_id END)
+			/ NULLIF(COUNT(DISTINCT user_id), 0)::NUMERIC, 4) AS overall_funnel_cr		
+			
+FROM user_segmentation
+WHERE has_impression = 1
+GROUP BY campaign_id, campaign_name;
 SELECT *
 FROM campaign_funnel_metrics;
 ```
@@ -91,17 +91,16 @@ FROM campaign_funnel_metrics;
 ## 2. Overall funnel metrics
 
 ```sql
-funnel_metrics AS (
-	SELECT 	SUM(impression_users) AS impression_users,
-			SUM(click_users) AS click_users,
-			SUM(purchase_users) AS purchase_users,
+CREATE VIEW funnel_metrics AS
+SELECT 	SUM(impression_users) AS impression_users,
+		SUM(click_users) AS click_users,
+		SUM(purchase_users) AS purchase_users,
 
-			ROUND(SUM(click_users) / NULLIF(SUM(impression_users),0)::NUMERIC, 4) AS ctr,
-			ROUND(SUM(purchase_users) / NULLIF(SUM(click_users),0)::NUMERIC, 4) AS purchase_cr,
-			ROUND(SUM(purchase_users) / NULLIF(SUM(impression_users),0)::NUMERIC, 4) AS overall_funnel_cr			
+		ROUND(SUM(click_users) / NULLIF(SUM(impression_users),0)::NUMERIC, 4) AS ctr,
+		ROUND(SUM(purchase_users) / NULLIF(SUM(click_users),0)::NUMERIC, 4) AS purchase_cr,
+		ROUND(SUM(purchase_users) / NULLIF(SUM(impression_users),0)::NUMERIC, 4) AS overall_funnel_cr			
 			
-	FROM campaign_funnel_metrics
-)
+FROM campaign_funnel_metrics;
 SELECT *
 FROM funnel_metrics;
 ```
