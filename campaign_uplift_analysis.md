@@ -1,4 +1,4 @@
-# A. USER SEGMENTATION
+# A. EVENT PROCESSING & USER SEGMENTATION
 
 Create a view that map relevant events to users:
 
