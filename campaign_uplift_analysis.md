@@ -13,7 +13,7 @@ JOIN users u ON u.cookie_id = e.cookie_id
 WHERE ei.event_name IN ('Ad Impression', 'Ad Click', 'Purchase');
 ```
 
-Create a view that maps each user event to the campaign active at the time of the event.
+Create a view that maps each user event to the campaign active at the time of the event:
 
 ```sql
 CREATE VIEW campaign_events AS
@@ -66,10 +66,27 @@ FROM user_segmentation;
 | 6       | 2020-01-25  | 2           | 25% Off - Living The Lux Life          | 0              | 0         | 1            | Non-exposed       |
 | 384     | 2020-01-03  | 1           | BOGOF - Fishing For Compliments        | 0              | 0         | 1            | Non-exposed       |
 
+Create a view that transforms event into product-level user events:
+
+```sql
+CREATE VIEW product_events AS
+SELECT 	u.user_id,
+		e.visit_id,
+	  	p.page_name AS product_name,
+	 	ei.event_name,
+	  	p.product_id,
+	  	DATE_TRUNC('month', e.event_time)::DATE AS month
+FROM events e
+JOIN page_hierarchy p ON e.page_id = p.page_id
+JOIN event_identifier ei ON ei.event_type = e.event_type
+JOIN users u ON u.cookie_id = e.cookie_id
+WHERE ei.event_name IN ('Page View', 'Add to Cart', 'Purchase');
+```
 
 # B. FUNNEL METRICS
 
 Funnel metrics are calculated using user-level flags to avoid double counting and to measure conversion from impression → click → purchase accurately.
+DAX measures are used to compute the distinct number of users at each stage of the funnel.
 
 ```DAX
 Impression Users =
@@ -91,91 +108,87 @@ CALCULATE(
     'hqtcsdl user_segmentation'[has_purchase] = 1
 )
 
+Impression Abandoned = 
+CALCULATE(
+    DISTINCTCOUNT('hqtcsdl user_segmentation'[user_id]),
+    'hqtcsdl user_segmentation'[has_impression] = 1 &&
+    'hqtcsdl user_segmentation'[has_click] = 0
+)
+
+Click Abandoned = 
+CALCULATE(
+    DISTINCTCOUNT('hqtcsdl user_segmentation'[user_id]),
+    'hqtcsdl user_segmentation'[has_click] = 1 &&
+    'hqtcsdl user_segmentation'[has_purchase] = 0
+)
 ```
 
+Conversion rates are calculated by dividing the distinct user counts between funnel stages.
+
+```DAX
+CTR = DIVIDE([Click Users], [Impression Users])
+Purchase CR = DIVIDE([Purchase Users], [Click Users])
+Overall Funnel CR = DIVIDE([Purchase Users], [Impression Users])
+```
 
 
 # C. PURCHASE UPLIFT ANALYSIS
 
-**Treated_users**: Users who received at least one Ad Impression
-
 ```sql
-treated_users AS (
-	  SELECT DISTINCT user_id
-	  FROM user_events
-	  WHERE event_name = 'Ad Impression'
+CREATE VIEW uplift_metrics AS
+WITH event_user AS (
+	-- Join events with users to retrieve user_id from cookie_id
+    SELECT	u.user_id,	
+        	ei.event_name,
+        	e.event_time        
+    FROM events e
+	JOIN event_identifier ei ON ei.event_type = e.event_type
+    JOIN users u ON e.cookie_id = u.cookie_id
+),
+campaign_users AS (
+	-- Identify all users who appeared during the campaign period
+    SELECT DISTINCT
+			c.campaign_id,
+	        c.campaign_name,
+	        e.user_id
+    FROM campaign_identifier c
+    JOIN event_user e ON e.event_time 
+		BETWEEN c.start_date AND c.end_date
+),
+user_flags AS (
+	-- Identify impression, click, and purchase events for each user within each campaign
+    SELECT	cu.campaign_id,
+			cu.campaign_name,
+        	cu.user_id,
+			
+	        MAX(CASE WHEN eu.event_name = 'Ad Impression' THEN 1 ELSE 0 END) AS has_impression,
+	        MAX(CASE WHEN eu.event_name = 'Ad Click' THEN 1 ELSE 0 END) AS has_click,
+	        MAX(CASE WHEN eu.event_name = 'Purchase' THEN 1 ELSE 0 END) AS has_purchase
+			
+    FROM campaign_users cu
+    LEFT JOIN event_user eu ON cu.user_id = eu.user_id
+		AND eu.event_time BETWEEN
+			(SELECT start_date FROM campaign_identifier c WHERE c.campaign_name = cu.campaign_name)
+             AND
+            (SELECT end_date FROM campaign_identifier c WHERE c.campaign_name = cu.campaign_name)
+    GROUP BY cu.campaign_id, cu.campaign_name, cu.user_id
 )
+SELECT	campaign_id,
+    	campaign_name,
+
+	    -- Total number of users in each group
+		COUNT(DISTINCT CASE WHEN has_impression = 1 THEN user_id END) AS impression_user,
+    	COUNT(DISTINCT CASE WHEN has_impression = 0 THEN user_id END) AS no_impression_user,
+		COUNT(DISTINCT CASE WHEN has_click = 1 THEN user_id END) AS click_users,
+    	COUNT(DISTINCT CASE WHEN has_impression = 1 AND has_click = 0 THEN user_id END) AS impression_only_users,
+	
+	    -- Total number of purchasers in each group
+		COUNT(DISTINCT CASE WHEN has_impression = 1 AND has_purchase = 1 THEN user_id END) AS impression_purchasers,
+    	COUNT(DISTINCT CASE WHEN has_impression = 0 AND has_purchase = 1 THEN user_id END) AS no_impression_purchasers,
+		COUNT(DISTINCT CASE WHEN has_click = 1 AND has_purchase = 1 THEN user_id END) AS click_purchasers,
+    	COUNT(DISTINCT CASE WHEN has_impression = 1 AND has_click = 0 AND has_purchase = 1 THEN user_id END) AS impression_only_purchasers
+	
+FROM user_flags
+GROUP BY campaign_id, campaign_name
+ORDER BY campaign_id;
 ```
-
-**Control_users**: Users who never received any Ad Impression
-
-```sql
-control_users AS (
-	SELECT DISTINCT u.user_id
-	FROM users u
-	WHERE u.user_id NOT IN (
-		SELECT user_id FROM treated_users)
-)
-```
-
-**Purchase_users**: Users who made at least one Purchase event
-
-```sql
-purchase_users AS (
-    SELECT DISTINCT user_id
-    FROM user_events
-    WHERE event_name = 'Purchase'
-)
-```
-
-## 1. Purchase rate by treatment group
-
-```sql
-purchase_rate AS (
-    SELECT	'Treated' AS user_group,
-			COUNT(DISTINCT t.user_id) AS total_users,
-			COUNT(DISTINCT p.user_id) AS purchasers,
-			ROUND(COUNT(DISTINCT p.user_id)::NUMERIC
-				/ COUNT(DISTINCT t.user_id),4) AS purchase_rate
-	FROM treated_users t
-	LEFT JOIN purchase_users p ON t.user_id = p.user_id
-
-	UNION ALL
-
-	SELECT
-		'Control' AS user_group,
-		COUNT(DISTINCT c.user_id),
-		COUNT(DISTINCT p.user_id),
-		ROUND(COUNT(DISTINCT p.user_id)::NUMERIC 
-		/ COUNT(DISTINCT c.user_id),4) AS purchase_rate
-	FROM control_users c
-	LEFT JOIN purchase_users p ON c.user_id = p.user_id
-)
-SELECT * 
-FROM purchase_rate;
-```
-
-| user_group | total_users | purchasers | purchase_rate |
-|------------|-------------|------------|----------------|
-| **Treated** | 442 | 439 | **0.9932** |
-| **Control** | 58 | 45 | **0.7759** |
-
-## 2. Purchase uplift: Treated - Control
-
-```sql
-uplift_analysis AS (
-    SELECT	MAX(CASE WHEN user_group = 'Treated' THEN purchase_rate END) AS treated_purchase_rate,
-			MAX(CASE WHEN user_group = 'Control' THEN purchase_rate END) AS control_purchase_rate,
-			MAX(CASE WHEN user_group = 'Treated' THEN purchase_rate END)
-			-
-			MAX(CASE WHEN user_group = 'Control' THEN purchase_rate END)
-				AS purchase_uplift
-	FROM purchase_rate
-)
-SELECT * 
-FROM uplift_analysis;
-```
-
-| treated_purchase_rate | control_purchase_rate | purchase_uplift |
-|-----------------------|------------------------|------------------|
-| **0.9932** | **0.7759** | **0.2173** |
