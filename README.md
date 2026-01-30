@@ -29,13 +29,11 @@ There is a total of 5 datasets:
 
 ## User Segmentation
 
-Users were segmented into three mutually exclusive exposure groups to support uplift and behavioral analysis:
+Users were segmented into three mutually exclusive exposure groups to support behavioral analysis:
 
 - **Non-exposed users**: users who did not receive any campaign impression
 - **Impression-only users**: users who received at least one impression but did not click
 - **Clickers**: users who clicked on at least one campaign impression
-
-> **Note:** User segmentation is used for uplift analysis and behavioral comparison, not for funnel conversion metrics.
 
 
 ## Funnel Metrics
