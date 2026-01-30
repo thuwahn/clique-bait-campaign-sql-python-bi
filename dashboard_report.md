@@ -16,6 +16,14 @@ The Overview page summarizes the entire performance picture across campaigns and
 - How do conversion rates trend over time?
 - Which products contribute most to overall revenue?
 
+> Overall campaign activity peaked in February, with all three funnel stages increasing. Conversion remained high across campaigns (most > 72,4%), indicating strong campaign relevance and product-market fit.
+
+
+## 2. Campaign Details
+
+![funnel_uplift_analysis_2](https://github.com/user-attachments/assets/1f9ff5b6-a280-4359-8359-af63da71ee1b)
+
+
 #### Campaign Summary
 
 - Campaigns deliver a strong overall funnel conversion rate of 86.4%, indicating that the majority of users who engage with campaign impressions eventually complete a purchase.
@@ -25,12 +33,4 @@ The Overview page summarizes the entire performance picture across campaigns and
 
 - Campaign activity peaks in February across impressions, clicks, and purchases..
 - Conversion rate improves steadily from January → March.
-> Conversion rate improves steadily from 76.3% (January) → 86.7% (February) → 87.0% (March).
-
-
-## 2. Campaign Details
-
-![funnel_uplift_analysis_2](https://github.com/user-attachments/assets/1f9ff5b6-a280-4359-8359-af63da71ee1b)
-
-
-
+> This suggests increased campaign optimization or seasonality in user purchasing behavior.
