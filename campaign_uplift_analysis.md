@@ -86,7 +86,7 @@ WHERE ei.event_name IN ('Page View', 'Add to Cart', 'Purchase');
 # B. FUNNEL METRICS
 
 Funnel metrics are calculated using user-level flags to avoid double counting and to measure conversion from impression → click → purchase accurately.
-DAX measures are used to compute the distinct number of users at each stage of the funnel.
+DAX measures are used to compute the distinct number of users at each stage of the funnel:
 
 ```DAX
 Impression Users =
@@ -123,7 +123,7 @@ CALCULATE(
 )
 ```
 
-Conversion rates are calculated by dividing the distinct user counts between funnel stages.
+Conversion rates are calculated by dividing the distinct user counts between funnel stages:
 
 ```DAX
 CTR = DIVIDE([Click Users], [Impression Users])
