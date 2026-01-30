@@ -6,6 +6,7 @@ and purchase stages.
 
 ## 1. Dashboard Overview
 
-[funnel_uplift_analysis-trang-1.pdf](https://github.com/user-attachments/files/24972315/funnel_uplift_analysis-trang-1.pdf)
+![Uploading funnel_uplift_analysis-h├¼nh ß║únh-0.jpg…]()
+
 
 
