@@ -134,6 +134,8 @@ Overall Funnel CR = DIVIDE([Purchase Users], [Impression Users])
 
 # C. PURCHASE UPLIFT ANALYSIS
 
+Count users and purchasers in each exposure group to support conversion and uplift calculations
+
 ```sql
 CREATE VIEW uplift_metrics AS
 WITH event_user AS (
@@ -177,8 +179,8 @@ SELECT	campaign_id,
     	campaign_name,
 
 	    -- Total number of users in each group
-		COUNT(DISTINCT CASE WHEN has_impression = 1 THEN user_id END) AS impression_user,
-    	COUNT(DISTINCT CASE WHEN has_impression = 0 THEN user_id END) AS no_impression_user,
+		COUNT(DISTINCT CASE WHEN has_impression = 1 THEN user_id END) AS impression_users,
+    	COUNT(DISTINCT CASE WHEN has_impression = 0 THEN user_id END) AS no_impression_users,
 		COUNT(DISTINCT CASE WHEN has_click = 1 THEN user_id END) AS click_users,
     	COUNT(DISTINCT CASE WHEN has_impression = 1 AND has_click = 0 THEN user_id END) AS impression_only_users,
 	
@@ -192,3 +194,9 @@ FROM user_flags
 GROUP BY campaign_id, campaign_name
 ORDER BY campaign_id;
 ```
+| Campaign ID | Campaign Name                       | Impression Users | No-Impression Users | Click Users | Impression-Only Users | Impression Purchasers | No-Impression Purchasers | Click Purchasers | Impression-Only Purchasers |
+|-------------|--------------------------------------|------------------|----------------------|-------------|------------------------|------------------------|----------------------------|-------------------|-----------------------------|
+| 1           | BOGOF - Fishing For Compliments      | 59               | 44                   | 50          | 9                      | 58                     | 28                         | 49                | 9                           |
+| 2           | 25% Off - Living The Lux Life        | 91               | 69                   | 71          | 20                     | 81                     | 43                         | 65                | 16                          |
+| 3           | Half Off - Treat Your Shellf(ish)    | 352              | 97                   | 307         | 45                     | 348                    | 74                         | 305               | 43                          |
+
