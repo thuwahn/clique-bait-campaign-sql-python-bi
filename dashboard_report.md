@@ -1,4 +1,4 @@
-# Power BI Dashboard Storytelling — Campaign Funnel & Uplift Analysis
+![funnel_uplift_analysis_3](https://github.com/user-attachments/assets/a1fc79d7-d11e-4ea4-9f74-8647e841b4ce)# Power BI Dashboard Storytelling — Campaign Funnel & Uplift Analysis
 
 This Power BI report provides a comprehensive view of how marketing campaigns influence user behavior, product interaction, and purchase conversion. 
 The dashboard integrates SQL-based user segmentation, funnel metrics, and uplift analysis to evaluate campaign performance across impression, click, 
@@ -21,8 +21,7 @@ The Overview page summarizes the entire performance picture across campaigns and
 
 ## 2. Campaign Details
 
-![funnel_uplift_analysis_2](https://github.com/user-attachments/assets/1f9ff5b6-a280-4359-8359-af63da71ee1b)
-
+![funnel_uplift_analysis_page-0002](https://github.com/user-attachments/assets/8494335e-6843-4ddd-90a9-faeb60a0c44b)
 
 #### Campaign Summary
 
@@ -34,3 +33,21 @@ The Overview page summarizes the entire performance picture across campaigns and
 - Campaign activity peaks in February across impressions, clicks, and purchases..
 - Conversion rate improves steadily from January → March.
 > This suggests increased campaign optimization or seasonality in user purchasing behavior.
+
+## 3. User Behavior — Segmentation & Journey Flow
+
+![funnel_uplift_analysis_3](https://github.com/user-attachments/assets/b771b156-9892-48cb-9941-4b2bf482d961)
+
+## 4. Product Details — Product Funnel & Performance
+
+![funnel_uplift_analysis_4](https://github.com/user-attachments/assets/799288a7-8db4-4327-8b54-740319fbeaff)
+
+## 5. Uplift Analysis — Incremental Impact
+
+![funnel_uplift_analysis_5](https://github.com/user-attachments/assets/c9192bff-5aba-4811-a1c4-e4e875e40c9b)
+
+
+
+
+
+
