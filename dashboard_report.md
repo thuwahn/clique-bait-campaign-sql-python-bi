@@ -21,7 +21,8 @@ The Overview page summarizes the entire performance picture across campaigns and
 
 ## 2. Campaign Details
 
-![funnel_uplift_analysis_page-0002](https://github.com/user-attachments/assets/8494335e-6843-4ddd-90a9-faeb60a0c44b)
+![funnel_uplift_analysis-hình ảnh-1](https://github.com/user-attachments/assets/59d7dd6f-fce5-48d4-98d9-ba7e6ae4512d)
+
 
 #### Campaign Summary
 
