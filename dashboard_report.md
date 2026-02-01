@@ -5,16 +5,8 @@ The dashboard integrates SQL-based user segmentation, funnel metrics, and uplift
 and purchase stages.
 
 ## 1. Dashboard Overview
-
+The Overview page summarizes the entire performance picture across campaigns and products.
 <img width="1527" height="856" alt="image" src="https://github.com/user-attachments/assets/c162357c-5ecb-4330-841d-440064f4eb37" />
-
-The Overview page summarizes the entire performance picture across campaigns and products, answering:
-
-- How many users were received impressions during each campaign period?
-- How many users clicked on a campaign impression?
-- How many users converted (purchases)?
-- How do conversion rates trend over time?
-- Which products contribute most to overall revenue?
 
 ### Core Insights:
 
