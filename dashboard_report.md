@@ -162,14 +162,14 @@ Uplift Impression vs No-Impression is 27.96%, showing an ad increases the probab
 
 
 ### 3. Uplift Click vs Impression Only
-- BOGOF (Negative Uplift -2.00%): Users who only saw the ad converted at 100%, while those who clicked converted at 98%. The click added no value. The campaign offer is so simple and powerful that visuals alone are sufficient to drive a purchase.
+- **BOGOF (Negative Uplift -2.00%)**: Users who only saw the ad converted at 100%, while those who clicked converted at 98%. The click added no value. The campaign offer is so simple and powerful that visuals alone are sufficient to drive a purchase.
 
-- 25% Off (Positive Uplift +11.55%): Users who clicked converted much higher (91.5%) than those who just viewed (80%). This offer is weaker. It requires the user to click, land on the site, and be further convinced by content to make a purchase.
+- **25% Off (Positive Uplift +11.55%)**: Users who clicked converted much higher (91.5%) than those who just viewed (80%). This offer is weaker. It requires the user to click, land on the site, and be further convinced by content to make a purchase.
 
 ### 4.  Strategic Recommendations
-- Prioritize Half Off for profitability: Since it has the highest Organic Baseline (76%), you don't need to spend as aggressively to convince people. The product sells itself.
-- Use BOGOF for Market Penetration: Use this campaign to target "Cold Audiences" (people who don't know the brand). The ad is exceptionally good at turning uninterested strangers into buyers.
-- Click-Based KPIs: For BOGOF, the "View" is what drives the sale, not the click. Optimizing Cost Per Impression (CPM) is better than Cost Per Click (CPC).
+- **Prioritize Half Off for profitability**: Since it has the highest Organic Baseline (76%), you don't need to spend as aggressively to convince people. The product sells itself.
+- **Use BOGOF for Market Penetration**: Use this campaign to target "Cold Audiences" (people who don't know the brand). The ad is exceptionally good at turning uninterested strangers into buyers.
+- **Click-Based KPIs**: For BOGOF, the "View" is what drives the sale, not the click. Optimizing Cost Per Impression (CPM) is better than Cost Per Click (CPC).
 
 
 
