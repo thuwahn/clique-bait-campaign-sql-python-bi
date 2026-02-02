@@ -91,8 +91,8 @@ The Product Details dashboard provides a granular view of customer engagement fr
 ### 1. The Funnel Bottleneck: Browsing vs. Buying
 The biggest drop-off occurs at the initial interest stage. ~40% of users view a product but decide not to add it to their cart. In contrast, once an item is in the cart, the conversion rate is exceptionally high (75.9%).
 - **Action**:
-        - Focus on Product Pages (PDP): The Checkout is optimized. Shift resources to improve Product Detail Pages.
-        - Tactics: Enhance high-resolution imagery, add video content, improve product descriptions, and display social proof (reviews) prominently near the "Add to Cart" button to boost the ATC Rate.
+    - Focus on Product Pages (PDP): The Checkout is optimized. Shift resources to improve Product Detail Pages.
+    - Tactics: Enhance high-resolution imagery, add video content, improve product descriptions, and display social proof (reviews) prominently near the "Add to Cart" button to boost the ATC Rate.
 
 ### 2. Portfolio Balance
 The "Monthly Purchased Products Heatmap" reveals a surprising trend: Demand is evenly distributed.
